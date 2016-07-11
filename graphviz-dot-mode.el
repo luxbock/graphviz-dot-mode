@@ -803,7 +803,8 @@ then indent this and each subgraph in it."
   (let ((windows (window-list))
         (f-name (graphviz-output-file-name (buffer-file-name)))
         (warn-msg (string-trim (shell-command-to-string compile-command))))
-    (if (string-match-p "^Warning: .+ line \\([0-9]+\\)" warn-msg)
+    (if (or (string-match-p "^Error: .+" warn-msg)
+          (string-match-p "^Warning: .+ line \\([0-9]+\\)" warn-msg))
         (message warn-msg)
       (progn
         (sleep-for 0 graphviz-dot-revert-delay)
